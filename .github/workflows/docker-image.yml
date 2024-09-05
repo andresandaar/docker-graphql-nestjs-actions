@@ -29,21 +29,23 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin del login"
-        echo "New version $NEW_VERSION !!!!!!!"
         
-    # - name: Build the Docker image
-    #   run: |
-    #     docker build -t andaar1998/docker-graphql:0.0.2 .
-    #     docker build -t andaar1998/docker-graphql:latest .
+    - name: Build the Docker image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
+      run: |
+        docker build -t andaar1998/docker-graphql:$NEW_VERSION .
+        docker build -t andaar1998/docker-graphql:latest .
         
-    # - name: Push the Docker image
-    #   run: |
-    #     docker push andaar1998/docker-graphql:0.0.2
-    #     docker push andaar1998/docker-graphql:latest
+    - name: Push the Docker image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
+      run: |
+        docker push andaar1998/docker-graphql:$NEW_VERSION
+        docker push andaar1998/docker-graphql:latest
            
     # docker build . --file Dockerfile --tag my-image-name:$(date +%s)
