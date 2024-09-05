@@ -27,7 +27,12 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin del login"
         
+    - name: Build the Docker image
+      run: |
+        docker build Dockerfile --tag andaar1998/docker-graphql:0.0.2 .
+        
+    - name: Push the Docker image
+      run: |
+        docker push andaar1998/docker-graphql:0.0.2 .
+           
     # docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    #  docker build --rm -f "Dockerfile" --tag andaar1998/docker-graphql:0.0.1 "."
-    
-    # - name: Build the Docker image
